@@ -18,26 +18,34 @@ chunkUpload.onsubmit = function() {
   const input = document.querySelector("#chunkUpload input[type='file']");
   [ ...input.files ].forEach((file) => {
     const size = file.size;
-    const sliceSize = 8;
+
+    // Set size of each chunk to 32 MB
+    const sliceSize = 32 * 1024 * 1024;
 
     const parts = [];
     let start = 0;
     let end = sliceSize;
+    // Chunk the file
     while(start < size) {
       parts.push(file.slice(start, end));
       start = end;
       end += sliceSize;
     }
 
+    // Upload the chunks parallelly
     parts.forEach((part, index) => {
       const formData = new FormData();
-      formData.append(`myFiles`, part);
+      const file = part;
+      formData.append(`index`, index);
+      formData.append(`myFiles`, file);
       fetch('/files', {
         method: 'POST',
         body: formData
       })
         .then(response => console.log('Success:', response))
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.log(error));
     });
   });
+  // Prevent page reload interrupt file transmission
+  return false;
 }

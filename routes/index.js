@@ -1,7 +1,19 @@
 var express = require('express');
 var multer  = require('multer')
 var router = express.Router();
-var upload = multer({ dest: 'uploads/' }).single('myFiles');
+
+var storage = multer.diskStorage(
+  {
+    destination: './uploads/',
+    // Add part sequence to the file name
+    filename: function ( req, file, cb ) {
+      const { index } = req.body;
+      const filename = index > -1 ? `${file.originalname}-${index}` : file.originalname;
+      cb(null, filename);
+    }
+  }
+);
+var upload = multer({ storage }).single('myFiles');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
