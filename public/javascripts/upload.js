@@ -3,7 +3,7 @@ jsUpload.onsubmit = function() {
   const input = document.querySelector("#jsUpload input[type='file'][multiple]");
 
   for (let i = 0; i < input.files.length; i++) {
-    formData.append('files', input.files[i]);
+    formData.append('myFiles', input.files[i]);
   }
 
   fetch('/files', {
@@ -31,7 +31,7 @@ chunkUpload.onsubmit = function() {
 
     parts.forEach((part, index) => {
       const formData = new FormData();
-      formData.append(`file${index}`, part);
+      formData.append(`myFiles`, part);
       fetch('/files', {
         method: 'POST',
         body: formData

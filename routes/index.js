@@ -1,5 +1,7 @@
 var express = require('express');
+var multer  = require('multer')
 var router = express.Router();
+var upload = multer({ dest: 'uploads/' }).single('myFiles');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -8,20 +10,24 @@ router.get('/', function(req, res, next) {
 
 /* Upload file. */
 router
-  .post('/files',
-    function(req, res, next) {
-      req.rawBody = '';
-      req.setEncoding('utf8');
-      req.on('data', function(chunk) {
-        req.rawBody += chunk;
+  .post(
+    '/files',
+    function (req, res) {
+      upload(req, res, function (err) {
+        if (err instanceof multer.MulterError) {
+          // A Multer error occurred when uploading.
+          console.log('multer error');
+          console.log(err);
+        } else if (err) {
+          // An unknown error occurred when uploading.
+          console.log('unknown error');
+          console.log(err);
+        } else {
+          // Everything went fine.
+          console.log('no error');
+        }
+        res.send('OK');
       });
-      req.on('end', function() {
-        next();
-      });
-    },
-    function(req, res, next) {
-      console.log(req.rawBody);
-      res.send('OK');
     }
   );
 

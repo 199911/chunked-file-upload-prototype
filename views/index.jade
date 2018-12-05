@@ -5,7 +5,7 @@ block content
   p Welcome to #{title}
   form(name='uploadForm', action='/files', method='post', enctype='multipart/form-data')
     h2= 'HTTP upload'
-    input(type='file', name='myFile', multiple)
+    input(type='file', name='myFiles', multiple)
     input(type='submit', value='Send file')
 
   form#jsUpload
