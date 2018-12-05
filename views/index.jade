@@ -4,5 +4,13 @@ block content
   h1= title
   p Welcome to #{title}
   form(name='uploadForm', action='/files', method='post', enctype='multipart/form-data')
-    input(type='file', name='myFile')
+    h2= 'HTTP upload'
+    input(type='file', name='myFile', multiple)
     input(type='submit', value='Send file')
+
+  form#jsUpload
+    h2= 'Javascript upload'
+    input(type='file', multiple)
+    input(type='submit', value='Send file')
+
+  script(src='/javascripts/upload.js')
