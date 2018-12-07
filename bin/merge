@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+const Promise = require('bluebird');
+const fs = Promise.promisifyAll(require("fs"));
+
+const [,,chunkNum] = process.argv;
+
+const main = async() => {
+  try {
+    await fs.writeFileAsync('./uploads/video.mp4', '');
+    for (let i = 0; i < chunkNum; ++i) {
+      const data = await fs.readFileAsync(`./uploads/blob-${i}`, 'binary');
+      await fs.appendFileAsync('./uploads/video.mp4', data, { encoding: 'binary'});
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+main();

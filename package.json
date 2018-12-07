@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "merge": "node ./bin/merge"
   },
   "dependencies": {
+    "bluebird": "^3.5.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "^4.16.4",
